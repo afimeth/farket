@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Yalnızca debug: yerel Supabase (http://10.0.2.2:54321) cleartext HTTP kullanır.
+         Release manifest'inde bu izin YOKTUR (main/AndroidManifest.xml'deki nota bakın). -->
+    <application android:usesCleartextTraffic="true" />
+
+</manifest>

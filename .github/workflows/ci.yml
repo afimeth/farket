@@ -1,0 +1,44 @@
+name: CI
+
+# Bulgu (backend, yüksek öncelik): pgTAP test suite'i (272 test) ve Kotlin derlemesi
+# push/PR'da otomatik doğrulanmıyordu, regresyonlar tamamen "birinin yerelde
+# çalıştırmayı hatırlamasına" bağlıydı. Bu workflow ikisini de her push/PR'da çalıştırır.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  android:
+    name: Android build & compile
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Compile debug Kotlin
+        run: ./gradlew compileDebugKotlin --no-daemon
+
+  supabase:
+    name: Supabase migrations & pgTAP suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          # "latest" GitHub API'den her çalıştırmada çözülüyor ve
+          # kimliksiz istekler hızlıca rate limit'e takılıyordu
+          # ("Failed to resolve latest Supabase CLI release"). Sabit
+          # sürüme pinlendi — güncellemek istenirse elle artırılır.
+          version: 2.114.0
+      - name: Start local Supabase stack
+        run: supabase start
+      - name: Run pgTAP test suite
+        run: supabase test db

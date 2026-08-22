@@ -1,0 +1,11 @@
+-- Beta finalizasyonu: purge_deleted_accounts artık Edge Function
+-- (supabase/functions/purge-deleted-photos) tarafından günlük çağrılıyor —
+-- fonksiyon hem RPC'yi çalıştırıyor hem dönen deleted_photo_paths'i Storage
+-- API'den fiziksel siliyor (pg_cron'un yapamadığı kısım). Eski pg_cron job'ı
+-- kalırsa RPC günde iki kez koşar ve ilk koşan taraf yolları "tüketip" boş
+-- döndürdüğü için Edge Function'ın eline silinecek yol geçmeyebilirdi —
+-- job kaldırılıyor.
+--
+-- Not: cron.unschedule, job yoksa hata fırlatır; taze `db reset`te job'ı
+-- 20260817073356 zaten kurduğu için burada her zaman vardır.
+select cron.unschedule('purge-deleted-accounts-daily');

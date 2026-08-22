@@ -1,0 +1,19 @@
+scratch_photos/
+supabase/scripts/seed_bots_cloud.ps1
+supabase/functions/.env
+android/local.properties
+
+# İç çalışma notları — repoda tutulmuyor (yerelde duruyor).
+# Kök dizindeki .md dosyalarından yalnızca README ve KURULUM izlenir.
+/*.md
+!/README.md
+!/KURULUM.md
+design-canvas-tanitim/
+android/README.md
+supabase/content-source/farket-seed-yukleme-talimati.md
+
+# Depoyu kompakt tutmak için repo dışında bırakılanlar (yerelde duruyor):
+# tasarım tuvalleri, web font kaynakları ve bot fotoğraf havuzu (~82 MB).
+design-canvas/
+android/design_assets/
+supabase/content-source/

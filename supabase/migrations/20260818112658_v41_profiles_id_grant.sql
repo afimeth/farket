@@ -1,0 +1,29 @@
+-- Farket v4.1 — dar düzeltme: profiles.id için eksik UPDATE grant'ı.
+--
+-- Tablo: public.profiles · Sütun: id · Rol: authenticated
+--
+-- Ne açıyor: yalnızca `id` sütununu PostgREST'in upsert (ON CONFLICT DO
+-- UPDATE) ifadesinin SET listesine dahil edebilmesini. Değeri her zaman
+-- EXCLUDED.id'dir (= gönderilen id, yani auth.uid() ile aynı satırın kendi
+-- birincil anahtarı) — pratikte "id'yi değiştirme" izni değil, upsert'in
+-- kendi conflict target'ını SET ifadesinde tekrar yazabilmesi.
+--
+-- Neden gerekli: 20260818110732_v41_additive_columns.sql, profiles.update
+-- grant'ını blanket'ten sütun bazlıya düşürdü (display_name, birth_date,
+-- sex, city_id, district_id, status, age_attested_at, username) ama `id`yi
+-- listeye almadı. Android istemcisi ProfileSetupRepository.createBasicProfile
+-- içinde `.upsert(...)` kullanıyor (sihirbaz yeniden başlatıldığında
+-- profiles_pkey çakışmasını önlemek için, bkz. proje notları) — PostgREST bu
+-- upsert için ON CONFLICT (id) DO UPDATE SET id = EXCLUDED.id, ... üretiyor;
+-- id UPDATE-grant'lı olmadığı için "permission denied for table profiles"
+-- (42501) ile reddediliyordu. Emülatörde uçtan uca testte bulundu ve
+-- doğrulandı: yalnızca bu GRANT eklenince hata kayboldu (bkz. rapor).
+--
+-- RLS zaten eşleşiyor: profiles_update_own policy'si (20260816022336)
+-- `using (id = auth.uid()) with check (id = auth.uid())` — bu GRANT bir
+-- RLS gevşetmesi değil, yalnızca zaten kendi satırıyla sınırlı olan
+-- kullanıcıya id sütununu SET listesinde görme izni.
+--
+-- Bu migration TEK BAŞINA — başka hiçbir tabloya/sütuna dokunmuyor.
+
+grant update (id) on public.profiles to authenticated;

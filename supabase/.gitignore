@@ -1,0 +1,11 @@
+# Supabase
+.branches
+.temp
+
+# İndirilen AI yüz fotoğrafları (download_ai_faces.py) — büyük binary, repo'ya gerek yok
+content-source/ai_faces/
+
+# dotenvx
+.env.keys
+.env.local
+.env.*.local

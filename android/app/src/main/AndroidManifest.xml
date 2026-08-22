@@ -1,0 +1,38 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- usesCleartextTraffic yalnızca debug overlay'inde (debug/AndroidManifest.xml) —
+         release HTTPS'li Cloud'a bağlanacağı için cleartext'e hiç izin verilmez.
+         allowBackup=false: auth token'ların cihaz yedeğine girmesini engeller. -->
+    <application
+        android:name=".FarketApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Farket">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Farket">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- E-posta giriş linki geri dönüşü (bkz. SupabaseClientProvider,
+                 config.toml additional_redirect_urls). launchMode=singleTask
+                 tarayıcıdan dönünce yeni bir MainActivity örneği açmak yerine
+                 mevcut olanı onNewIntent ile günceller. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="farket" android:host="login-callback" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
