@@ -50,7 +50,19 @@ WHERE = {
 }
 
 
+# storage.objects şeması storage-api konteyner sürümüyle birlikte değişiyor
+# (archived_at / is_delete_marker / is_versioned gibi sütunlar yeni imajlarda var,
+# eskilerde yok). Fikstür her CLI/imaj sürümünde uygulanabilsin diye bu tabloda
+# yalnızca çekirdek sütunlar dump edilir; kalanlar servis varsayılanına düşer.
+COLUMN_OVERRIDES = {
+    "storage.objects": ["id", "bucket_id", "name", "owner", "owner_id", "metadata"],
+}
+
+
 def columns(cur, schema: str, table: str) -> list[str]:
+    override = COLUMN_OVERRIDES.get(f"{schema}.{table}")
+    if override:
+        return override
     cur.execute(
         "select column_name from information_schema.columns "
         "where table_schema = %s and table_name = %s "
