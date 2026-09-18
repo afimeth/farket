@@ -1,5 +1,7 @@
 # farket
 
+From the maker of **New4U** — [n4u.tech](https://n4u.tech) (Private Preview).
+
 **Görmeden önce fark et.**
 
 Farket, birinin profilini görebilmek için önce o kişiyi tanımanı isteyen bir tanışma ve keşif uygulamasıdır. Karşındaki kişinin fotoğrafları ve kendi yazdığı sorulardan oluşan bir quiz çözersin; yeterince doğru cevap verirsen künyesi (isim, yaş, meslek gibi bilgiler) açılır ve o kişiyle mesajlaşma hakkı kazanırsın. Yanılırsan o profil sana birkaç günlüğüne kapanır.
