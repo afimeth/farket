@@ -1,5 +1,7 @@
 # farket
 
+🇬🇧 **English:** [jump to the English version](#farket-english) · 🇹🇷 Türkçe aşağıda
+
 From the maker of **New4U** — [n4u.tech](https://n4u.tech) (Private Preview).
 
 **Görmeden önce fark et.**
