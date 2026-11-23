@@ -1,6 +1,6 @@
 name: CI
 
-# Bulgu (backend, yüksek öncelik): pgTAP test suite'i (272 test) ve Kotlin derlemesi
+# Bulgu (backend, yüksek öncelik): pgTAP test suite'i (300 test) ve Kotlin derlemesi
 # push/PR'da otomatik doğrulanmıyordu, regresyonlar tamamen "birinin yerelde
 # çalıştırmayı hatırlamasına" bağlıydı. Bu workflow ikisini de her push/PR'da çalıştırır.
 
